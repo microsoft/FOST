@@ -1,0 +1,31 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+base:
+    dump_path: 'runs'
+    loss_func: 'mse'
+data_handler:
+    lookback: 'auto'
+trainer:
+    max_epochs: 100
+    device: 'cuda'
+model:
+    KRNNModel:
+        cnn_dim: 64
+        cnn_kernel_size: 3
+        rnn_dim: 64
+        rnn_dups: 3
+    SandwichModel:
+        cnn_dim: 64
+        cnn_kernel_size: 3
+        rnn_dim: 64
+        rnn_dups: 3
+        gcn_dim: 64
+        gcn_type: 'gat'
+        gcn_aggr: 'max'
+        gcn_norm: 'none'
+    MLP_Res:
+        hid_dim: 64
+        nb_layer: 4
+fusion:
+    method: 'trunacted'

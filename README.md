@@ -1,33 +1,139 @@
-# Project
+<!-- [![Python Versions](https://img.shields.io/pypi/pyversions/fostool.svg?logo=python&logoColor=white)](https://test.pypi.org/project/fostool/0.2.3/#files)
+[![Platform](https://img.shields.io/badge/platform-linux%20%7C%20windows%20%7C%20macos-lightgrey)](https://test.pypi.org/project/fostool/0.2.3/#files)
+[![PypI Versions](https://img.shields.io/pypi/v/fostool)](https://pypi.org/project/fostool/#history)
+[![Upload Python Package](https://github.com/microsoft/fost/workflows/Upload%20Python%20Package/badge.svg)](https://pypi.org/project/fostool/)
+[![Github Actions Test Status](https://github.com/microsoft/fost/workflows/Test/badge.svg?branch=main)](https://github.com/microsoft/fost/actions)
+[![Documentation Status](https://readthedocs.org/projects/fost/badge/?version=latest)](https://fost.readthedocs.io/en/latest/?badge=latest)
+[![License](https://img.shields.io/pypi/l/fostool)](LICENSE)
+[![Join the chat at https://gitter.im/Microsoft/fostool](https://badges.gitter.im/Microsoft/fostool.svg)](https://gitter.im/Microsoft/fostool?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) -->
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
 
-As the maintainer of this project, please make a few updates:
+- [**Fost**](#fost)
+- [Framework of Fost](#framework-of-fost)
+- [Quick Start](#quick-start)
+  - [Installation](#installation)
+  - [Train with FOST](#train-with-fost)
+- [Data Format](#data-format)
+- [Examples](#examples)
+- [Contact Us](#contact-us)
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+# FOST
 
-## Contributing
+<!-- FOST is an easy-use forecasting tools aiming at spatial-temporal forecasting. -->
+FOST(Forecasting open source tool) aims to provide an easy-use tool for spatial-temporal forecasting. The users only need to organize their data into a certain format and then get the prediction results with one command. FOST automatically handles the missing and abnormal values, and captures both spatial and temporal correlations efficiently.
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+# Framework of FOST
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+Following is the framework of FOST, basically it contains 4 main components:
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+![FOST framework](https://dsm01pap002files.storage.live.com/y4mqv6c15r0vEfpNGcpMnUa4sOxYZFDDBL6h47EdLlVuKZcGTUw8LKrseJnZ2Q8hlJK3VB0lj13TJmF5pvrC5LeiKHR4cfSIGJT3YmV2D_-O6HpG8VFVKM5Alx9hEhAvc0fOAXFkthsC5qAccx8_eJsoKj8eTHvAns0z72v811JOVbswqGLWOeGNyUIjgQiL52F?width=1050&height=268&cropmode=none)
 
-## Trademarks
+| Module name   | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| Preprocessing | Preprocessing module aims at handle varies data situation, currently FOST designed sub-module to handle issues such as missing value, unalignment timestamp and feature selection. |
+| Modeling      | FOST contains implements for different mainstream deep learning models such as RNN, MLP and GNN, for better performance on varies custom data. Further model implements such as Transformer, N-beats are in progress. |
+| Fusion        | Fusion module aims at automatically select and ensemble model predictions. |
+| Utils         | There are many other utils in FOST, such as neural-network trainer and predictor, result plotter and so on. |
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+# Quick Start
+
+## Installation
+
+### Installation of dependency packages
+
+#### 1. Prerequisites
+
+This project relies on `pytorch >= 1.8` and `torch-geometric >= 1.7.2`
+
+- torch installation reference link：https://pytorch.org/get-started/previous-versions/
+
+- torch-geometric installation reference link: https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html
+
+#### 2. Installation
+
+You can install fost with pip:
+
+```
+pip install fostool
+```
+
+## Train with FOST
+
+#### 1. Import forecasting pipeline
+
+```python
+from fostool.pipeline import Pipeline
+```
+
+#### 2. Setting data path and lookahead
+
+You need to pass your `train.csv` and `graph.csv` for model training, see [dataformat](#data-format) for data preparing.
+
+```python
+train_path = '/path/to/your/train.csv'
+graph_path = '/path/to/your/graph.csv' # graph_path is alternative
+lookahead = 7 # Forward steps you would like to predict.
+```
+
+#### 3. Fit and predict
+
+We provide a default config file in config/default.yaml. You could use your config file through config_path augment.
+
+```python
+fost = Pipeline(lookahead=lookahead, train_path=train_path, graph_path=graph_path)
+fost.fit()
+result = fost.predict()
+```
+
+#### 4. Plot results
+
+```python
+fost.plot(result)
+```
+
+# Data Format
+
+> You can fetch sample data on `/examples`
+
+### 1. train.csv
+
+3 columns are required for `train.csv`:
+
++ Node: node name for current data
++ Date: date or timestamp for current data
++ TARGET: target for prediction
+
+A valid format may look like:
+
+| Node    | Date       | TARGET     |
+| ------- | ---------- | ---------- |
+| Alaska  | 1960-01-01 | 800592.0   |
+| Alaska  | 1961-01-01 | 933600.0   |
+| Alabama | 1960-01-01 | 10141633.0 |
+| Alabama | 1961-01-01 | 9885992.0  |
+| Alabama | 1962-01-01 | 10497917.0 |
+
+Columns except above will be regarded as feature columns.
+
+### 2. graph.csv (option)
+
+`graph.csv` should only contains 3 columns:
+
++ node_0: node name for fist node, node name should align with node name in `train.csv`.
++ node_1: node name for second node, node name should align with node name in `train.csv`.
++ weight: weight on connection for node_0 to node_1.
+
+If `graph.csv` is not provided, identity graph will be used.
+
+# Examples
+We prepared several examples on `examples`:
+
+1. [Predict simulation cosine curve](https://github.com/microsoft/FOST/blob/main/examples/1.%20Cosine%20prediction.ipynb)
+2. [Predict States Energy Data](https://github.com/microsoft/FOST/blob/main/examples/2.%20predict%20Energy.ipynb)
+3. [Save and load model](https://github.com/microsoft/FOST/blob/main/examples/3.%20save%20and%20load.ipynb)
+
+# Contact Us
+
+- If you have any issues, please create issue [here](https://github.com/microsoft/fost/issues/new/choose) or send messages in [gitter](https://gitter.im/Microsoft/fost).
+- For other reasons, you are welcome to contact us by email([fostool@microsoft.com](mailto:fostool@microsoft.com)).
+

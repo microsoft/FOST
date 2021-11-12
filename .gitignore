@@ -1,0 +1,6 @@
+dist/
+build/
+runs/
+fostool.egg-info/
+*.pyc
+*.ipynb_checkpoints
