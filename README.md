@@ -128,9 +128,9 @@ If `graph.csv` is not provided, identity graph will be used.
 # Examples
 We prepared several examples on `examples`:
 
-1. [Predict simulation cosine curve](https://github.com/microsoft/FOST/blob/main/examples/1.%20Cosine%20prediction.ipynb)
-2. [Predict States Energy Data](https://github.com/microsoft/FOST/blob/main/examples/2.%20predict%20Energy.ipynb)
-3. [Save and load model](https://github.com/microsoft/FOST/blob/main/examples/3.%20save%20and%20load.ipynb)
+1. [Predict simulation cosine curve](/examples/1.%20Cosine%20prediction.ipynb)
+2. [Predict States Energy Data](/examples/2.%20Predict%20States%20Energy%20Data.ipynb)
+3. [Save and load model](/examples/3.%20Save%20and%20load.ipynb)
 
 # Contact Us
 
