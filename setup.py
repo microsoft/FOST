@@ -23,7 +23,7 @@ setup(
         "matplotlib",
         "numpy",
         "pandas",
-        "pyyaml",
+        "pyyaml>=5.1",
         "addict",
     ],
     # 'extras_require packages' are not normally used, but only when the module is used in depth, and need to be installed manually
