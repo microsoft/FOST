@@ -7,6 +7,10 @@
 [![License](https://img.shields.io/pypi/l/fostool)](LICENSE)
 [![Join the chat at https://gitter.im/Microsoft/fostool](https://badges.gitter.im/Microsoft/fostool.svg)](https://gitter.im/Microsoft/fostool?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) -->
 
+<p align="center">
+  <img src="https://dsm01pap002files.storage.live.com/y4mueD2H6WE6Df3edTW6YE_KLeND5ROVCKksKxGarweSuk9VW2m4jrY8EBTVN5qXiQEnuyfSQZ2t9HOtrsLjXSPqKkmMrMtrmncb3xVzITPl0pu7mwESEjF1CooSkvtdTNPBW237K1bTNqyA9cD-opu_ISObWFLusFpAFJQk_tSxRAYi-mp4QI9fcXUUTYgndae?width=4248&height=1324&cropmode=none" width=50% />
+</p>
+
 
 - [**Fost**](#fost)
 - [Framework of Fost](#framework-of-fost)
@@ -16,6 +20,7 @@
 - [Data Format](#data-format)
 - [Examples](#examples)
 - [Contact Us](#contact-us)
+
 
 # FOST
 
