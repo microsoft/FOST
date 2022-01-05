@@ -107,8 +107,18 @@ class Pipeline(object):
         """Load and preprocess data
         """
         self.train_path = train_path
-        node_data = pd.read_csv(train_path, parse_dates=['Date'])
-        if graph_path is not None:
+
+        if isinstance(train_path, pd.DataFrame):
+            train_path['Date'] = pd.to_datetime(train_path['Date'])
+            node_data = train_path
+        elif isinstance(train_path, str):
+            node_data = pd.read_csv(train_path, parse_dates=['Date'])
+        else:
+            logger.warning('Invalid train path {}.'.format(train_path))
+
+        if graph_path is not None and isinstance(graph_path, pd.DataFrame):
+            graph_data = graph_path
+        elif graph_path is not None and isinstance(train_path, str):
             graph_data = pd.read_csv(graph_path)
         else:
             unique_node = node_data['Node'].unique()
@@ -378,8 +388,11 @@ class Pipeline(object):
         Figure
             The figure you set up
         """
-        if not isinstance(train_data, pd.DataFrame) and self.train_path:
-            train_data = pd.read_csv(self.train_path, usecols=['Node', 'Date', 'TARGET'], parse_dates=[
-                                     'Date'], index_col=False)[['Node', 'Date', 'TARGET']]
+        if not isinstance(train_data, pd.DataFrame) and not (self.train_path is None):
+            if isinstance(self.train_path, pd.DataFrame):
+                train_data = self.train_path[['Node', 'Date', 'TARGET']]
+            else:
+                train_data = pd.read_csv(self.train_path, usecols=['Node', 'Date', 'TARGET'], parse_dates=[
+                    'Date'], index_col=False)[['Node', 'Date', 'TARGET']]
         plot(train_data, predict_data, self.lookahead,
              node_name=node_name, lookback_size=lookback_size, **params)
