@@ -107,25 +107,26 @@ class Pipeline(object):
         """Load and preprocess data
         """
         self.train_path = train_path
-        assert isinstance(train_path, pd.DataFrame) or isinstance(train_path, str), 'train_path should be str or dataframe'
+        assert isinstance(train_path, pd.DataFrame) or isinstance(
+            train_path, str), 'train_path should be str or dataframe'
 
         if isinstance(train_path, pd.DataFrame):
-            train_path['Date']=pd.to_datetime(train_path['Date'])
-            node_data=train_path
+            train_path['Date'] = pd.to_datetime(train_path['Date'])
+            node_data = train_path
         elif isinstance(train_path, str):
-            node_data=pd.read_csv(train_path, parse_dates = ['Date'])
+            node_data = pd.read_csv(train_path, parse_dates=['Date'])
 
         if graph_path is not None:
             if isinstance(graph_path, pd.DataFrame):
-                graph_data=graph_path
+                graph_data = graph_path
             elif isinstance(train_path, str):
-                graph_data=pd.read_csv(graph_path)
+                graph_data = pd.read_csv(graph_path)
         else:
-            unique_node=node_data['Node'].unique()
+            unique_node = node_data['Node'].unique()
 
             if len(unique_node) < 100:
-                graph_data=pd.DataFrame(
-                    index = pd.MultiIndex.from_product(
+                graph_data = pd.DataFrame(
+                    index=pd.MultiIndex.from_product(
                         [unique_node, unique_node], names=['node_0', 'node_1']
                     )
                 ).reset_index()
@@ -393,6 +394,6 @@ class Pipeline(object):
                 train_data = self.train_path[['Node', 'Date', 'TARGET']]
             else:
                 train_data = pd.read_csv(self.train_path, usecols=['Node', 'Date', 'TARGET'], parse_dates=[
-                                     'Date'], index_col=False)[['Node', 'Date', 'TARGET']]
+                    'Date'], index_col=False)[['Node', 'Date', 'TARGET']]
         plot(train_data, predict_data, self.lookahead,
              node_name=node_name, lookback_size=lookback_size, **params)
