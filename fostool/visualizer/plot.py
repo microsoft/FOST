@@ -79,11 +79,13 @@ def plot(
     ax = fig.add_subplot(111)
 
     predict_data = predict_data[predict_data["Node"] == node_name]
+    predict_data.sort_values(by=['Date'], inplace=True)
 
     if not isinstance(train_data, pd.DataFrame) or train_data.empty:
         logger.warning('train_data is empty')
     else:
         selected_train_data = train_data[train_data["Node"].isin([node_name])]
+        selected_train_data.sort_values(by=['Date'], inplace=True)
         selected_train_data = selected_train_data[-lookback_size:]
 
         ax.plot(selected_train_data['Date'],
@@ -104,7 +106,7 @@ def plot(
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     if include_legend:
-        ax.legend()   
+        ax.legend()
     fig.tight_layout()
 
     plt.title('{} data prediction'.format(node_name))
