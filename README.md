@@ -35,8 +35,8 @@ Following is the framework of FOST, basically it contains 4 main components:
 
 | Module name   | Description                                                  |
 | ------------- | ------------------------------------------------------------ |
-| Preprocessing | Preprocessing module aims at handle varies data situation, currently FOST designed sub-module to handle issues such as missing value, unalignment timestamp and feature selection. |
-| Modeling      | FOST contains implements for different mainstream deep learning models such as RNN, MLP and GNN, for better performance on varies custom data. Further model implements such as Transformer, N-beats are in progress. |
+| Preprocessing | Preprocessing module aims to handle various data situation, currently FOST designed sub-module handles issues such as missing value, unalignment timestamp and feature selection. |
+| Modeling      | FOST contains implements for different mainstream deep learning models such as RNN, MLP and GNN, for better performance on various custom data. Further model implements such as Transformer, N-beats are in progress. |
 | Fusion        | Fusion module aims at automatically select and ensemble model predictions. |
 | Utils         | There are many other utils in FOST, such as neural-network trainer and predictor, result plotter and so on. |
 
@@ -124,7 +124,7 @@ Columns except above will be regarded as feature columns.
 
 `graph.csv` should only contains 3 columns:
 
-+ node_0: node name for fist node, node name should align with node name in `train.csv`.
++ node_0: node name for first node, node name should align with node name in `train.csv`.
 + node_1: node name for second node, node name should align with node name in `train.csv`.
 + weight: weight on connection for node_0 to node_1.
 
